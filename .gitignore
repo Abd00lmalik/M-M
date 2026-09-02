@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary assets (original music file)
+For the rest of my life*
+IMG-20260902*
+assets/
+
+# Planning docs (not part of the website)
+*.md
+!README.md
+
+# Logs
+*.log
+npm-debug.log*
