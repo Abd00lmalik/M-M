@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 export default function OpeningSequence({ onEnter }) {
   const [isHidden, setIsHidden] = useState(false)
   const [isReturning, setIsReturning] = useState(false)
+  const [phase, setPhase] = useState('seal') // seal → dissolve → open → rise → reveal
 
   useEffect(() => {
-    // Check for returning visitor (within 24h)
     try {
       const lastVisit = localStorage.getItem('wedding-visit')
       const now = Date.now()
@@ -13,95 +13,113 @@ export default function OpeningSequence({ onEnter }) {
         setIsReturning(true)
       }
     } catch {
-      // localStorage unavailable — treat as first visit
+      // localStorage unavailable
     }
   }, [])
 
+  useEffect(() => {
+    if (isReturning) {
+      // Abbreviated: skip to reveal quickly
+      const t = setTimeout(() => setPhase('reveal'), 600)
+      return () => clearTimeout(t)
+    }
+
+    // Full sequence timing
+    const timers = [
+      setTimeout(() => setPhase('dissolve'), 1200),   // seal dissolves
+      setTimeout(() => setPhase('open'), 1700),       // flap opens
+      setTimeout(() => setPhase('rise'), 2200),       // card rises
+      setTimeout(() => setPhase('reveal'), 3200),     // content appears
+    ]
+
+    return () => timers.forEach(clearTimeout)
+  }, [isReturning])
+
   const handleEnter = () => {
-    // Store visit timestamp
     try {
       localStorage.setItem('wedding-visit', Date.now().toString())
     } catch {
-      // localStorage unavailable — continue anyway
+      // continue anyway
     }
     setIsHidden(true)
-    setTimeout(() => onEnter(), 600)
+    setTimeout(() => onEnter(), 700)
   }
+
+  const dur = isReturning ? '0.3s' : undefined
 
   return (
     <div
       className={`opening-overlay ${isHidden ? 'hidden' : ''}`}
       aria-hidden={isHidden}
     >
-      {/* Envelope */}
-      <div className="envelope" style={isReturning ? {
-        animationDuration: '0.3s',
-        animationDelay: '0.2s',
-      } : undefined}>
-        <div className="envelope-body">
-          {/* Botanical SVG decoration — gold stems, subtle rose buds */}
-          <svg className="envelope-botanical" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 160 C60 120, 40 100, 20 80 C40 90, 55 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.5" />
-            <path d="M60 160 C60 130, 80 110, 100 90 C80 100, 65 110, 60 130" stroke="#b8965a" strokeWidth="0.8" opacity="0.5" />
-            <path d="M60 160 C60 110, 50 80, 30 50 C50 70, 58 90, 60 110" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
-            <path d="M60 160 C60 120, 70 90, 90 60 C70 80, 62 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
-            {/* Gold bud accents */}
-            <circle cx="20" cy="80" r="2" fill="#b8965a" opacity="0.3" />
-            <circle cx="100" cy="90" r="2" fill="#b8965a" opacity="0.3" />
-            <circle cx="30" cy="50" r="1.5" fill="#b8965a" opacity="0.25" />
-            <circle cx="90" cy="60" r="1.5" fill="#b8965a" opacity="0.25" />
-            {/* Subtle rose-tinted leaf accents */}
-            <circle cx="25" cy="72" r="1.2" fill="#d4a5a5" opacity="0.12" />
-            <circle cx="95" cy="82" r="1.2" fill="#d4a5a5" opacity="0.12" />
-            <circle cx="35" cy="55" r="0.8" fill="#d4a5a5" opacity="0.1" />
+      {/* Atmospheric glow */}
+      <div className="opening-glow" aria-hidden="true" />
+
+      {/* Envelope wrapper with perspective */}
+      <div className="opening-envelope-scene" style={{ perspective: '1000px' }}>
+        {/* Envelope body */}
+        <div className={`opening-envelope ${phase !== 'seal' ? 'envelope-visible' : ''}`}
+          style={isReturning ? { animationDuration: dur } : undefined}
+        >
+          {/* Paper texture */}
+          <div className="envelope-texture" aria-hidden="true" />
+
+          {/* Botanical decoration */}
+          <svg className="envelope-botanical" viewBox="0 0 120 160" fill="none" aria-hidden="true">
+            <path d="M60 160 C60 120, 40 100, 20 80 C40 90, 55 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
+            <path d="M60 160 C60 130, 80 110, 100 90 C80 100, 65 110, 60 130" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
+            <path d="M60 160 C60 110, 50 80, 30 50 C50 70, 58 90, 60 110" stroke="#b8965a" strokeWidth="0.8" opacity="0.3" />
+            <path d="M60 160 C60 120, 70 90, 90 60 C70 80, 62 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.3" />
+            <circle cx="20" cy="80" r="2" fill="#b8965a" opacity="0.2" />
+            <circle cx="100" cy="90" r="2" fill="#b8965a" opacity="0.2" />
+            <circle cx="30" cy="50" r="1.5" fill="#b8965a" opacity="0.15" />
+            <circle cx="90" cy="60" r="1.5" fill="#b8965a" opacity="0.15" />
           </svg>
 
           {/* Wax seal */}
-          <div className="wax-seal" style={isReturning ? {
-            animationDuration: '0.2s',
-            animationDelay: '0.1s',
-          } : undefined}>A&M</div>
-        </div>
-
-        {/* Envelope flap */}
-        <div className="envelope-flap" style={isReturning ? {
-          animationDuration: '0.3s',
-          animationDelay: '0.3s',
-        } : undefined} />
-
-        {/* Invitation card inside envelope */}
-        <div className="invitation-card-opening" style={isReturning ? {
-          animationDuration: '0.4s',
-          animationDelay: '0.5s',
-        } : undefined}>
-          <div className="bismillah" style={isReturning ? {
-            animationDuration: '0.2s',
-            animationDelay: '0.6s',
-          } : undefined}>بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-          <div className="names" style={isReturning ? {
-            animationDuration: '0.3s',
-            animationDelay: '0.7s',
-          } : undefined}>
-            Al-Mustapha
-            <span className="ampersand">&</span>
-            Maryam
+          <div
+            className={`wax-seal ${phase === 'dissolve' || phase === 'open' || phase === 'rise' || phase === 'reveal' ? 'seal-dissolving' : ''}`}
+            style={isReturning ? { animationDuration: '0.2s', animationDelay: '0.1s' } : undefined}
+          >
+            <span className="seal-letter">M</span>
+            <span className="seal-ampersand">&</span>
+            <span className="seal-letter">M</span>
           </div>
-          <div className="date" style={isReturning ? {
-            animationDuration: '0.2s',
-            animationDelay: '0.8s',
-          } : undefined}>31 October 2026</div>
+
+          {/* Envelope flap */}
+          <div
+            className={`envelope-flap ${phase === 'open' || phase === 'rise' || phase === 'reveal' ? 'flap-open' : ''}`}
+            style={isReturning ? { animationDuration: '0.3s', animationDelay: '0.2s' } : undefined}
+          />
+
+          {/* Invitation card inside */}
+          <div
+            className={`invitation-card ${phase === 'rise' || phase === 'reveal' ? 'card-risen' : ''}`}
+            style={isReturning ? { animationDuration: '0.4s', animationDelay: '0.4s' } : undefined}
+          >
+            <div className={`card-content ${phase === 'reveal' ? 'content-visible' : ''}`}>
+              <p className="card-bismillah" dir="rtl">
+                {isReturning ? 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ' : 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ'}
+              </p>
+
+              <div className="card-names">
+                <span className="card-name">Al-Mustapha</span>
+                <span className="card-ampersand">&</span>
+                <span className="card-name">Maryam</span>
+              </div>
+
+              <p className="card-date">31 October 2026</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Enter button */}
       <button
-        className="enter-btn"
+        className={`enter-btn ${phase === 'reveal' ? 'btn-visible' : ''}`}
         onClick={handleEnter}
         aria-label="Enter the invitation"
-        style={isReturning ? {
-          animationDuration: '0.2s',
-          animationDelay: '1s',
-        } : undefined}
+        style={isReturning ? { animationDuration: '0.2s', animationDelay: '0.6s' } : undefined}
       >
         Enter Invitation
       </button>

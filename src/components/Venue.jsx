@@ -9,49 +9,33 @@ export default function Venue() {
   )}`
 
   return (
-    <section className="section" id="venue">
-      <div className="section-narrow">
+    <section className="section venue" id="venue">
+      <div className="venue-inner">
         <div className="reveal" ref={ref}>
-          <p className="section-label">The Nikah</p>
-          <h2 className="section-title">Venue</h2>
+          <p className="venue-label">The Venue</p>
 
-          <div className="gold-divider">
-            <div className="line" />
-            <div className="diamond" />
-            <div className="line" />
+          <h2 className="venue-name">{wedding.event.venue.name}</h2>
+
+          <p className="venue-address">{wedding.event.venue.address}</p>
+
+          <div className="venue-divider" aria-hidden="true">
+            <span className="venue-div-line" />
+            <span className="venue-div-diamond" />
+            <span className="venue-div-line" />
           </div>
 
-          <div className="venue-card">
-            {/* Mosque icon */}
-            <div className="venue-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L12 6" />
-                <path d="M8 6L16 6" />
-                <path d="M6 6L6 20" />
-                <path d="M18 6L18 20" />
-                <path d="M4 20L20 20" />
-                <path d="M12 2C12 2 9 4 9 6" />
-                <path d="M12 2C12 2 15 4 15 6" />
-                <circle cx="12" cy="10" r="1.5" fill="currentColor" opacity="0.3" />
-              </svg>
-            </div>
-
-            <h3 className="venue-name">{wedding.event.venue.name}</h3>
-            <p className="venue-address">{wedding.event.venue.address}</p>
-
-            <a
-              className="venue-maps-btn"
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              Open in Maps
-            </a>
-          </div>
+          <a
+            className="venue-cta"
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Open in Maps
+          </a>
         </div>
       </div>
     </section>

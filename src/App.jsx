@@ -4,8 +4,8 @@ import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
 import OurStory from './components/OurStory'
+import TheNikah from './components/TheNikah'
 import Gallery from './components/Gallery'
-import WeddingGifts from './components/WeddingGifts'
 import Venue from './components/Venue'
 import Footer from './components/Footer'
 import MusicController from './components/MusicController'
@@ -15,7 +15,6 @@ export default function App() {
   const [showSite, setShowSite] = useState(false)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
-  // Check for reduced motion — skip opening immediately
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
@@ -30,24 +29,21 @@ export default function App() {
 
   return (
     <>
-      {/* Opening Sequence — only show if not reduced motion and site not yet revealed */}
       {!showSite && (
         <OpeningSequence onEnter={handleEnter} />
       )}
 
-      {/* Main Site */}
       <main>
         <Hero />
         <QuranicVerses />
         <Invitation />
         <OurStory />
+        <TheNikah />
         <Gallery />
-        <WeddingGifts />
         <Venue />
         <Footer />
       </main>
 
-      {/* Music Control */}
       <MusicController
         isPlaying={isPlaying}
         isMuted={isMuted}

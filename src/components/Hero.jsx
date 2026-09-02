@@ -6,77 +6,52 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home">
-      <div className="hero-invitation">
-        {/* Botanical corner details — gold stems with subtle rose buds */}
-        <svg className="hero-corner hero-corner--tl" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Gold stems */}
-          <path d="M4 4 L4 28" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 4 L28 4" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 14 Q8 14 10 10" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M4 20 Q10 18 12 12" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M4 26 Q12 22 14 14" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <path d="M14 4 Q14 10 10 12" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M20 4 Q18 12 12 14" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M26 4 Q22 14 14 16" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          {/* Gold bud dots */}
-          <circle cx="10" cy="10" r="1.2" fill="currentColor" opacity="0.15" />
-          <circle cx="16" cy="8" r="0.8" fill="currentColor" opacity="0.12" />
-          {/* Subtle rose bud — very faint blush tint */}
-          <circle cx="8" cy="16" r="1" fill="#d4a5a5" opacity="0.1" />
-          <circle cx="12" cy="22" r="0.7" fill="#d4a5a5" opacity="0.08" />
+      {/* Atmospheric background glow */}
+      <div className="hero-atmosphere" aria-hidden="true" />
+
+      <div className="hero-card">
+        {/* Botanical corner accents */}
+        <svg className="hero-corner hero-corner--tl" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+          <path d="M4 4 L4 24" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M4 4 L24 4" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M4 12 Q8 10 10 6" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
+          <path d="M12 4 Q10 8 6 10" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
         </svg>
-        <svg className="hero-corner hero-corner--tr" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 4 L4 28" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 4 L28 4" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 14 Q8 14 10 10" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M4 20 Q10 18 12 12" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M4 26 Q12 22 14 14" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <path d="M14 4 Q14 10 10 12" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M20 4 Q18 12 12 14" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M26 4 Q22 14 14 16" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <circle cx="10" cy="10" r="1.2" fill="currentColor" opacity="0.15" />
-          <circle cx="16" cy="8" r="0.8" fill="currentColor" opacity="0.12" />
-          <circle cx="8" cy="16" r="1" fill="#d4a5a5" opacity="0.1" />
-          <circle cx="12" cy="22" r="0.7" fill="#d4a5a5" opacity="0.08" />
+        <svg className="hero-corner hero-corner--tr" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+          <path d="M52 4 L52 24" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M52 4 L32 4" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M52 12 Q48 10 46 6" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
+          <path d="M44 4 Q46 8 50 10" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
         </svg>
-        <svg className="hero-corner hero-corner--bl" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 4 L4 28" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 4 L28 4" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 14 Q8 14 10 10" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M4 20 Q10 18 12 12" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M4 26 Q12 22 14 14" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <path d="M14 4 Q14 10 10 12" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M20 4 Q18 12 12 14" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M26 4 Q22 14 14 16" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <circle cx="10" cy="10" r="1.2" fill="currentColor" opacity="0.15" />
-          <circle cx="16" cy="8" r="0.8" fill="currentColor" opacity="0.12" />
-          <circle cx="8" cy="16" r="1" fill="#d4a5a5" opacity="0.1" />
-          <circle cx="12" cy="22" r="0.7" fill="#d4a5a5" opacity="0.08" />
+        <svg className="hero-corner hero-corner--bl" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+          <path d="M4 52 L4 32" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M4 52 L24 52" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M4 44 Q8 46 10 50" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
+          <path d="M12 52 Q10 48 6 46" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
         </svg>
-        <svg className="hero-corner hero-corner--br" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 4 L4 28" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 4 L28 4" stroke="currentColor" strokeWidth="0.7" opacity="0.5" />
-          <path d="M4 14 Q8 14 10 10" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M4 20 Q10 18 12 12" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M4 26 Q12 22 14 14" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <path d="M14 4 Q14 10 10 12" stroke="currentColor" strokeWidth="0.6" opacity="0.3" />
-          <path d="M20 4 Q18 12 12 14" stroke="currentColor" strokeWidth="0.6" opacity="0.25" />
-          <path d="M26 4 Q22 14 14 16" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
-          <circle cx="10" cy="10" r="1.2" fill="currentColor" opacity="0.15" />
-          <circle cx="16" cy="8" r="0.8" fill="currentColor" opacity="0.12" />
-          <circle cx="8" cy="16" r="1" fill="#d4a5a5" opacity="0.1" />
-          <circle cx="12" cy="22" r="0.7" fill="#d4a5a5" opacity="0.08" />
+        <svg className="hero-corner hero-corner--br" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+          <path d="M52 52 L52 32" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M52 52 L32 52" stroke="currentColor" strokeWidth="0.6" opacity="0.35" />
+          <path d="M52 44 Q48 46 46 50" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
+          <path d="M44 52 Q46 48 50 46" stroke="currentColor" strokeWidth="0.5" opacity="0.2" />
         </svg>
 
-        {/* Content hierarchy */}
-        <div className="hero-bismillah" dir="rtl">
+        {/* Content */}
+        <p className="hero-bismillah" dir="rtl">
           {wedding.bismillah.arabic}
+        </p>
+
+        {/* Elegant divider */}
+        <div className="hero-divider" aria-hidden="true">
+          <span className="hero-divider-line" />
+          <span className="hero-divider-diamond" />
+          <span className="hero-divider-line" />
         </div>
 
         <h1 className="hero-names">
-          {wedding.couple.groom.first}
-          <span className="ampersand">&</span>
-          {wedding.couple.bride.first}
+          <span className="hero-name">{wedding.couple.groom.first}</span>
+          <span className="hero-ampersand" aria-hidden="true">&</span>
+          <span className="hero-name">{wedding.couple.bride.first}</span>
         </h1>
 
         <p className="hero-date">{wedding.event.dateDisplay}</p>
@@ -85,16 +60,17 @@ export default function Hero() {
           {wedding.guestMessage}
         </p>
 
+        {/* CTA — visible, not buried */}
         <a href="#story" className="hero-cta">
-          Enter Invitation
+          View Our Story
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
           </svg>
         </a>
 
-        {/* Countdown below CTA */}
-        <div className="hero-countdown-wrapper">
+        {/* Countdown */}
+        <div className="hero-countdown">
           <CountdownDisplay countdown={countdown} />
         </div>
       </div>
@@ -105,25 +81,17 @@ export default function Hero() {
 function CountdownDisplay({ countdown }) {
   if (countdown.isPast) {
     return (
-      <div className="countdown">
-        <div className="countdown-unit" style={{ minWidth: 'auto', padding: '14px 24px' }}>
-          <span className="countdown-number" style={{ fontSize: '16px' }}>
-            Thank you for celebrating with us
-          </span>
-        </div>
-      </div>
+      <p className="countdown-past">
+        Thank you for celebrating with us
+      </p>
     )
   }
 
   if (countdown.isToday) {
     return (
-      <div className="countdown">
-        <div className="countdown-unit" style={{ minWidth: 'auto', padding: '14px 24px' }}>
-          <span className="countdown-number" style={{ fontSize: '20px' }}>
-            Today is the day
-          </span>
-        </div>
-      </div>
+      <p className="countdown-today">
+        Today is the day
+      </p>
     )
   }
 

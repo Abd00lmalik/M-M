@@ -20,7 +20,7 @@ export const wedding = {
     type: "Islamic Marriage Ceremony",
     date: "2026-10-31T10:00:00+01:00",
     dateDisplay: "Saturday, 31st October 2026",
-    time: "10:00 AM",
+    time: "10:00 AM WAT",
     venue: {
       name: "Abu-Huraira Masjid",
       address:
@@ -73,21 +73,6 @@ export const wedding = {
 
   guestMessage:
     "Our relationship is proof that Allah has pre-ordained everything in the 'Lauhul Mahfouz'. Whatever is written to be yours will be yours. Don't rush Allah's decree — everything will happen at the right time, In Sha Allah.",
-
-  gifts: {
-    groom: {
-      label: "GROOM",
-      name: "TBD",
-      bank: "TBD",
-      account: "TBD",
-    },
-    bride: {
-      label: "BRIDE",
-      name: "TBD",
-      bank: "TBD",
-      account: "TBD",
-    },
-  },
 
   sharing: {
     title: "Al-Mustapha & Maryam — 31.10.26",

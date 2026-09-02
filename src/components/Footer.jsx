@@ -56,17 +56,22 @@ export default function Footer() {
 
   return (
     <footer className="footer" id="footer">
-      <div style={{ width: 'min(1100px, 90%)', margin: '0 auto' }}>
+      <div className="footer-inner">
+        {/* Delicate top rule */}
+        <div className="footer-rule" aria-hidden="true" />
+
         <p className="footer-names">
-          {wedding.couple.groom.first}
-          <span style={{ display: 'block', fontSize: '0.5em', color: 'var(--gold-muted)', margin: '4px 0' }}>&</span>
-          {wedding.couple.bride.first}
+          <span className="footer-name">{wedding.couple.groom.first}</span>
+          <span className="footer-ampersand" aria-hidden="true">&</span>
+          <span className="footer-name">{wedding.couple.bride.first}</span>
         </p>
+
         <p className="footer-date">{wedding.event.dateDisplay}</p>
 
+        {/* Action buttons */}
         <div className="footer-actions">
-          <button className="footer-btn" onClick={handleShare}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button className="footer-btn" onClick={handleShare} aria-label="Share invitation">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="18" cy="5" r="3" />
               <circle cx="6" cy="12" r="3" />
               <circle cx="18" cy="19" r="3" />
@@ -76,16 +81,16 @@ export default function Footer() {
             Share
           </button>
 
-          <button className="footer-btn" onClick={handleCopyLink}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button className="footer-btn" onClick={handleCopyLink} aria-label="Copy link to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
             </svg>
             Copy Link
           </button>
 
-          <button className="footer-btn" onClick={handleGoogleCalendar}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button className="footer-btn" onClick={handleGoogleCalendar} aria-label="Add to Google Calendar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
               <line x1="8" y1="2" x2="8" y2="6" />
@@ -94,8 +99,8 @@ export default function Footer() {
             Google Calendar
           </button>
 
-          <button className="footer-btn" onClick={handleCalendar}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button className="footer-btn" onClick={handleCalendar} aria-label="Download calendar file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
