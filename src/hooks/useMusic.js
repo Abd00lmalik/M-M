@@ -12,6 +12,7 @@ export function useMusic(src) {
     audio.src = src
     audio.preload = 'metadata'
     audio.loop = false
+    audio.volume = 0.3 // Start at low volume
 
     audio.addEventListener('loadeddata', () => setIsLoaded(true))
     audio.addEventListener('ended', () => setIsPlaying(false))
@@ -31,6 +32,9 @@ export function useMusic(src) {
   const play = useCallback(() => {
     const audio = audioRef.current
     if (!audio || !isLoaded) return
+
+    // Set volume low before playing
+    audio.volume = 0.3
 
     audio.play()
       .then(() => {

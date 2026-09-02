@@ -28,15 +28,10 @@ export default function OpeningSequence({ onEnter }) {
     setTimeout(() => onEnter(), 600)
   }
 
-  // For returning visitors, show abbreviated experience
-  // Envelope appears quickly, Enter button shows sooner
-  const animDelay = isReturning ? '0s' : undefined
-
   return (
     <div
       className={`opening-overlay ${isHidden ? 'hidden' : ''}`}
       aria-hidden={isHidden}
-      style={isReturning ? { '--anim-delay': '0s' } : undefined}
     >
       {/* Envelope */}
       <div className="envelope" style={isReturning ? {
@@ -93,17 +88,17 @@ export default function OpeningSequence({ onEnter }) {
         </div>
       </div>
 
-      {/* Enter button */}
+      {/* Celebrate button — positioned at overlay level, below envelope */}
       <button
         className="enter-btn"
         onClick={handleEnter}
-        aria-label="Enter website"
+        aria-label="Celebrate with us"
         style={isReturning ? {
           animationDuration: '0.2s',
           animationDelay: '1s',
         } : undefined}
       >
-        Enter
+        Celebrate with us
       </button>
     </div>
   )
