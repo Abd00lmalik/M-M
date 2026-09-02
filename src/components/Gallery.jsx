@@ -1,18 +1,18 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-// Placeholder images from Unsplash — will be replaced with real photos
+// Placeholder images — will be replaced with real photos
 const PHOTOS = [
   {
     src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
-    alt: 'Couple moment',
+    alt: 'Couple moment — placeholder awaiting real photo',
   },
   {
     src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=80',
-    alt: 'Wedding celebration',
+    alt: 'Wedding celebration — placeholder awaiting real photo',
   },
   {
     src: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80',
-    alt: 'Together',
+    alt: 'Together — placeholder awaiting real photo',
   },
 ]
 
@@ -41,7 +41,7 @@ function GalleryImage({ photo, index }) {
   const ref = useScrollReveal({ threshold: 0.1 })
 
   return (
-    <div className="reveal" ref={ref} style={{ transitionDelay: `${index * 0.1}s` }}>
+    <div className="reveal" ref={ref} style={{ transitionDelay: `${index * 0.12}s` }}>
       <img
         className="gallery-image"
         src={photo.src}

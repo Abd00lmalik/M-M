@@ -39,16 +39,21 @@ export default function OpeningSequence({ onEnter }) {
         animationDelay: '0.2s',
       } : undefined}>
         <div className="envelope-body">
-          {/* Botanical SVG decoration */}
+          {/* Botanical SVG decoration — gold stems, subtle rose buds */}
           <svg className="envelope-botanical" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 160 C60 120, 40 100, 20 80 C40 90, 55 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.5"/>
-            <path d="M60 160 C60 130, 80 110, 100 90 C80 100, 65 110, 60 130" stroke="#b8965a" strokeWidth="0.8" opacity="0.5"/>
-            <path d="M60 160 C60 110, 50 80, 30 50 C50 70, 58 90, 60 110" stroke="#b8965a" strokeWidth="0.8" opacity="0.4"/>
-            <path d="M60 160 C60 120, 70 90, 90 60 C70 80, 62 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.4"/>
-            <circle cx="20" cy="80" r="2" fill="#b8965a" opacity="0.3"/>
-            <circle cx="100" cy="90" r="2" fill="#b8965a" opacity="0.3"/>
-            <circle cx="30" cy="50" r="1.5" fill="#b8965a" opacity="0.25"/>
-            <circle cx="90" cy="60" r="1.5" fill="#b8965a" opacity="0.25"/>
+            <path d="M60 160 C60 120, 40 100, 20 80 C40 90, 55 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.5" />
+            <path d="M60 160 C60 130, 80 110, 100 90 C80 100, 65 110, 60 130" stroke="#b8965a" strokeWidth="0.8" opacity="0.5" />
+            <path d="M60 160 C60 110, 50 80, 30 50 C50 70, 58 90, 60 110" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
+            <path d="M60 160 C60 120, 70 90, 90 60 C70 80, 62 100, 60 120" stroke="#b8965a" strokeWidth="0.8" opacity="0.4" />
+            {/* Gold bud accents */}
+            <circle cx="20" cy="80" r="2" fill="#b8965a" opacity="0.3" />
+            <circle cx="100" cy="90" r="2" fill="#b8965a" opacity="0.3" />
+            <circle cx="30" cy="50" r="1.5" fill="#b8965a" opacity="0.25" />
+            <circle cx="90" cy="60" r="1.5" fill="#b8965a" opacity="0.25" />
+            {/* Subtle rose-tinted leaf accents */}
+            <circle cx="25" cy="72" r="1.2" fill="#d4a5a5" opacity="0.12" />
+            <circle cx="95" cy="82" r="1.2" fill="#d4a5a5" opacity="0.12" />
+            <circle cx="35" cy="55" r="0.8" fill="#d4a5a5" opacity="0.1" />
           </svg>
 
           {/* Wax seal */}
@@ -64,8 +69,8 @@ export default function OpeningSequence({ onEnter }) {
           animationDelay: '0.3s',
         } : undefined} />
 
-        {/* Invitation card inside */}
-        <div className="invitation-card" style={isReturning ? {
+        {/* Invitation card inside envelope */}
+        <div className="invitation-card-opening" style={isReturning ? {
           animationDuration: '0.4s',
           animationDelay: '0.5s',
         } : undefined}>
@@ -88,17 +93,17 @@ export default function OpeningSequence({ onEnter }) {
         </div>
       </div>
 
-      {/* Celebrate button — positioned at overlay level, below envelope */}
+      {/* Enter button */}
       <button
         className="enter-btn"
         onClick={handleEnter}
-        aria-label="Celebrate with us"
+        aria-label="Enter the invitation"
         style={isReturning ? {
           animationDuration: '0.2s',
           animationDelay: '1s',
         } : undefined}
       >
-        Celebrate with us
+        Enter Invitation
       </button>
     </div>
   )

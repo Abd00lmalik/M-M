@@ -4,7 +4,6 @@ import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
 import OurStory from './components/OurStory'
-import Events from './components/Events'
 import Gallery from './components/Gallery'
 import WeddingGifts from './components/WeddingGifts'
 import Venue from './components/Venue'
@@ -36,13 +35,12 @@ export default function App() {
         <OpeningSequence onEnter={handleEnter} />
       )}
 
-      {/* Main Site — always rendered, just hidden behind opening overlay */}
+      {/* Main Site */}
       <main>
         <Hero />
         <QuranicVerses />
         <Invitation />
         <OurStory />
-        <Events />
         <Gallery />
         <WeddingGifts />
         <Venue />
