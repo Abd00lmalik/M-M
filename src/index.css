@@ -186,12 +186,12 @@ button { cursor: pointer; font: inherit; }
 
 /* Left M starting position */
 .opening-m--left {
-  transform: translateX(-180px) translateY(20px) rotate(-8deg) scale(0.8);
+  transform: translateX(min(-180px, -45vw)) translateY(20px) rotate(-8deg) scale(0.8);
 }
 
 /* Right M starting position */
 .opening-m--right {
-  transform: translateX(180px) translateY(-20px) rotate(8deg) scale(0.8);
+  transform: translateX(min(180px, 45vw)) translateY(-20px) rotate(8deg) scale(0.8);
 }
 
 /* M's entering phase */
@@ -210,7 +210,7 @@ button { cursor: pointer; font: inherit; }
 
 @keyframes mEnterLeft {
   0% {
-    transform: translateX(-180px) translateY(20px) rotate(-8deg) scale(0.8);
+    transform: translateX(min(-180px, -45vw)) translateY(20px) rotate(-8deg) scale(0.8);
     opacity: 0;
   }
   20% { opacity: 0.7; }
@@ -222,7 +222,7 @@ button { cursor: pointer; font: inherit; }
 
 @keyframes mEnterRight {
   0% {
-    transform: translateX(180px) translateY(-20px) rotate(8deg) scale(0.8);
+    transform: translateX(min(180px, 45vw)) translateY(-20px) rotate(8deg) scale(0.8);
     opacity: 0;
   }
   20% { opacity: 0.7; }
@@ -301,7 +301,7 @@ button { cursor: pointer; font: inherit; }
 /* Bismillah — appears at merge */
 .opening-bismillah {
   position: absolute;
-  bottom: -60px;
+  bottom: min(-60px, -15vw);
   font-family: var(--font-arabic);
   font-size: clamp(16px, 4vw, 22px);
   color: var(--gold-muted);
@@ -1527,7 +1527,7 @@ button { cursor: pointer; font: inherit; }
    FOOTER — Quiet, minimal closing
    ============================================================ */
 .footer {
-  padding: var(--space-3xl) var(--space-md) var(--space-xl);
+  padding: var(--space-3xl) var(--space-md) calc(var(--space-xl) + env(safe-area-inset-bottom, 0px));
   text-align: center;
   position: relative;
   z-index: 1;
@@ -1624,8 +1624,8 @@ button { cursor: pointer; font: inherit; }
    ============================================================ */
 .music-toggle {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  left: calc(20px + env(safe-area-inset-left, 0px));
   z-index: 50;
   width: 44px;
   height: 44px;
@@ -1793,11 +1793,89 @@ button { cursor: pointer; font: inherit; }
 }
 
 /* ============================================================
-   RESPONSIVE — Tablet
+   RESPONSIVE — Small phones (360-374px)
+   ============================================================ */
+@media (max-width: 374px) {
+  :root {
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 72px;
+  }
+
+  .hero-card {
+    padding: 32px 16px;
+  }
+
+  .hero-name {
+    font-size: 38px;
+  }
+
+  .hero-ampersand {
+    font-size: 16px;
+  }
+
+  .countdown-unit {
+    min-width: 48px;
+    padding: 8px 6px;
+  }
+
+  .countdown-number {
+    font-size: 20px;
+  }
+
+  .footer-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-btn {
+    width: 100%;
+    max-width: 260px;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Standard phones (375-429px)
+   ============================================================ */
+@media (min-width: 375px) and (max-width: 429px) {
+  .footer-actions {
+    gap: 6px;
+  }
+
+  .footer-btn {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Large phones / small tablets (430-767px)
+   ============================================================ */
+@media (min-width: 430px) and (max-width: 767px) {
+  .hero-card {
+    max-width: 480px;
+  }
+
+  .gallery-item:nth-child(2) {
+    margin-left: 6%;
+  }
+
+  .gallery-item:nth-child(3) {
+    margin-right: 6%;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Tablet (768-1023px)
    ============================================================ */
 @media (min-width: 768px) {
   .hero {
     padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .hero-card {
+    max-width: 560px;
   }
 
   .quran { padding: 120px var(--space-lg); }
@@ -1807,14 +1885,22 @@ button { cursor: pointer; font: inherit; }
   .gallery { padding: 120px var(--space-lg); }
   .venue { padding: 120px var(--space-lg); }
   .footer { padding: 120px var(--space-lg) var(--space-xl); }
+
+  .story-text {
+    font-size: 15px;
+  }
 }
 
 /* ============================================================
-   RESPONSIVE — Desktop
+   RESPONSIVE — Desktop (1024-1439px)
    ============================================================ */
 @media (min-width: 1024px) {
   .hero {
     padding: 140px var(--space-xl);
+  }
+
+  .hero-card {
+    max-width: 600px;
   }
 
   .quran { padding: 160px var(--space-xl); }
@@ -1828,6 +1914,52 @@ button { cursor: pointer; font: inherit; }
   .hero-corner {
     width: 64px;
     height: 64px;
+  }
+
+  .story-text {
+    font-size: 15px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Large desktop (1440px+)
+   ============================================================ */
+@media (min-width: 1440px) {
+  .hero {
+    padding: 180px var(--space-2xl);
+  }
+
+  .hero-card {
+    max-width: 640px;
+    padding: 80px 64px;
+  }
+
+  .hero-name {
+    font-size: 80px;
+  }
+
+  .quran { padding: 200px var(--space-2xl); }
+  .invitation { padding: 200px var(--space-2xl); }
+  .story { padding: 200px var(--space-2xl); }
+  .nikah { padding: 200px var(--space-2xl); }
+  .gallery { padding: 200px var(--space-2xl); }
+  .venue { padding: 200px var(--space-2xl); }
+  .footer { padding: 200px var(--space-2xl) var(--space-3xl); }
+
+  .quran-inner {
+    width: min(900px, 80%);
+  }
+
+  .invitation-inner {
+    width: min(720px, 80%);
+  }
+
+  .story-inner {
+    width: min(720px, 80%);
+  }
+
+  .gallery-inner {
+    width: min(1000px, 80%);
   }
 }
 
