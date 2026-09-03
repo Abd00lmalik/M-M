@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import OpeningSequence from './components/OpeningSequence'
-import FloatingElements from './components/FloatingElements'
-import SectionOrnaments from './components/SectionOrnaments'
+import FloralOrnaments from './components/FloralOrnaments'
 import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
@@ -15,37 +14,47 @@ import { useMusic } from './hooks/useMusic'
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false)
+  const [siteVisible, setSiteVisible] = useState(false)
+  const mainRef = useRef(null)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
-  // Skip intro for reduced motion — still show intro overlay briefly
+  // Skip intro for reduced motion
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
-      // Short delay so reduced-motion users still see the overlay flash
-      const t = setTimeout(() => setIntroComplete(true), 1800)
+      const t = setTimeout(() => {
+        setIntroComplete(true)
+        setTimeout(() => setSiteVisible(true), 100)
+      }, 1600)
       return () => clearTimeout(t)
     }
   }, [])
 
-  // Called after heart tap — starts music and reveals site
+  // Called after heart pop — smooth transition
   const handleIntroComplete = useCallback(() => {
     play()
     setIntroComplete(true)
+    // Fade in the site smoothly after overlay fades
+    requestAnimationFrame(() => {
+      setTimeout(() => setSiteVisible(true), 400)
+    })
   }, [play])
 
   return (
     <>
-      {/* Cinematic intro — always shown first, covers everything */}
+      {/* Cinematic intro */}
       {!introComplete && (
         <OpeningSequence onComplete={handleIntroComplete} />
       )}
 
-      {/* Floating decorative elements — only after intro */}
-      {introComplete && <FloatingElements />}
-      {introComplete && <SectionOrnaments />}
+      {/* Floral ornaments — static, no animation */}
+      {siteVisible && <FloralOrnaments />}
 
-      {/* Main wedding site — hidden until intro completes */}
-      <main style={introComplete ? undefined : { visibility: 'hidden' }}>
+      {/* Main site — fades in smoothly */}
+      <main
+        ref={mainRef}
+        className={`site-main ${siteVisible ? 'site-visible' : ''}`}
+      >
         <Hero />
         <QuranicVerses />
         <Invitation />

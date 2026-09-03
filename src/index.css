@@ -103,6 +103,19 @@ img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; font: inherit; }
 
+/* Site fade-in after intro */
+.site-main {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-main.site-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* ============================================================
    CINEMATIC OPENING SEQUENCE
    ============================================================ */
@@ -354,9 +367,9 @@ button { cursor: pointer; font: inherit; }
 }
 
 /* ============================================================
-   SECTION ORNAMENTS — Visible floral decorations
+   FLORAL ORNAMENTS — Static, stable decorations
    ============================================================ */
-.section-ornaments {
+.floral-ornaments {
   position: fixed;
   inset: 0;
   z-index: 1;
@@ -364,132 +377,57 @@ button { cursor: pointer; font: inherit; }
   overflow: hidden;
 }
 
-.section-ornament {
+.floral-ornament {
   position: absolute;
   pointer-events: none;
 }
 
-.section-ornament svg {
+.floral-ornament svg {
   width: 100%;
   height: 100%;
 }
 
-/* Hero bottom rose */
-.ornament-hero-bottom {
-  bottom: 2%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(200px, 50vw);
-  height: auto;
-  opacity: 0.5;
-}
-
-/* Quran side sprigs */
-.ornament-quran-left,
-.ornament-quran-right {
-  width: 60px;
-  height: 100px;
-  opacity: 0.35;
-}
-
-/* Story heart */
-.ornament-story-heart {
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 60px;
-  opacity: 0.4;
-}
-
-/* Gallery bottom rose */
-.ornament-gallery-bottom {
+/* Hero bottom rose cluster */
+.floral-hero {
   bottom: 3%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(180px, 45vw);
-  height: auto;
+  width: min(240px, 60vw);
+  opacity: 0.55;
+}
+
+/* Quran side branches */
+.floral-quran-left,
+.floral-quran-right {
+  width: 70px;
+  height: 130px;
+  opacity: 0.4;
+}
+
+/* Story divider */
+.floral-story {
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(160px, 40vw);
   opacity: 0.45;
 }
 
-/* Footer side sprigs */
-.ornament-footer-left,
-.ornament-footer-right {
-  width: 50px;
-  height: 80px;
-  opacity: 0.3;
+/* Gallery bottom rose */
+.floral-gallery {
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(220px, 55vw);
+  opacity: 0.5;
 }
 
-/* ============================================================
-   FLOATING ELEMENTS
-   ============================================================ */
-.floating-elements {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Floating hearts */
-.floating-heart {
-  position: absolute;
-  bottom: -40px;
-  animation: floatUp linear infinite;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  5% { opacity: var(--heart-opacity, 0.05); }
-  90% { opacity: var(--heart-opacity, 0.05); }
-  100% {
-    transform: translateY(-110vh) translateX(30px) rotate(15deg);
-    opacity: 0;
-  }
-}
-
-/* Gold particles */
-.floating-particle {
-  position: absolute;
-  bottom: -10px;
-  border-radius: 50%;
-  background: var(--gold);
-  animation: particleFloat linear infinite;
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% { opacity: var(--particle-opacity, 0.1); }
-  90% { opacity: var(--particle-opacity, 0.1); }
-  100% {
-    transform: translateY(-110vh) translateX(20px);
-    opacity: 0;
-  }
-}
-
-/* Botanical ornaments */
-.floating-botanical {
-  position: absolute;
-  animation: botanicalDrift linear infinite;
-}
-
-@keyframes botanicalDrift {
-  0% {
-    transform: translateY(0) translateX(0) rotate(var(--start-rotation, 0deg));
-    opacity: 0;
-  }
-  8% { opacity: var(--botanical-opacity, 0.03); }
-  92% { opacity: var(--botanical-opacity, 0.03); }
-  100% {
-    transform: translateY(-100vh) translateX(15px) rotate(calc(var(--start-rotation, 0deg) + 20deg));
-    opacity: 0;
-  }
+/* Footer branches */
+.floral-footer-left,
+.floral-footer-right {
+  width: 60px;
+  height: 110px;
+  opacity: 0.35;
 }
 
 /* ============================================================
@@ -2027,14 +1965,13 @@ button { cursor: pointer; font: inherit; }
     transform: none;
   }
 
-  /* Floating elements */
-  .floating-elements {
-    display: none;
-  }
+  /* Floral ornaments — static, no change needed */
 
-  /* Section ornaments — still visible but static */
-  .section-ornaments {
-    opacity: 0.5;
+  /* Site fade-in — instant for reduced motion */
+  .site-main {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
