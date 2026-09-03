@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import OpeningSequence from './components/OpeningSequence'
 import FloatingElements from './components/FloatingElements'
+import SectionOrnaments from './components/SectionOrnaments'
 import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
@@ -41,6 +42,7 @@ export default function App() {
 
       {/* Floating decorative elements — only after intro */}
       {introComplete && <FloatingElements />}
+      {introComplete && <SectionOrnaments />}
 
       {/* Main wedding site — hidden until intro completes */}
       <main style={introComplete ? undefined : { visibility: 'hidden' }}>

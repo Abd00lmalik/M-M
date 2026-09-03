@@ -13,9 +13,9 @@ function generateHearts(count) {
     x: seededRandom(i * 3 + 1) * 100,
     delay: seededRandom(i * 3 + 2) * 20,
     duration: 18 + seededRandom(i * 3 + 3) * 16,
-    size: 10 + seededRandom(i * 7) * 8,
-    baseOpacity: 0.04 + seededRandom(i * 5) * 0.06,
-    parallaxX: (seededRandom(i * 3 + 4) - 0.5) * 30, // ±15px
+    size: 14 + seededRandom(i * 7) * 14, // 14-28px — clearly visible
+    baseOpacity: 0.08 + seededRandom(i * 5) * 0.12, // 0.08-0.20 — visible
+    parallaxX: (seededRandom(i * 3 + 4) - 0.5) * 30,
   }))
 }
 
@@ -45,7 +45,7 @@ function generateBotanicals(count) {
       duration: 25 + seededRandom(i * 4 + 23) * 20,
       rotation: seededRandom(i * 4 + 24) * 360,
       scale: 0.6 + seededRandom(i * 4 + 25) * 0.8,
-      baseOpacity: 0.02 + seededRandom(i * 4 + 26) * 0.04,
+      baseOpacity: 0.04 + seededRandom(i * 4 + 26) * 0.06, // 0.04-0.10 — visible
       type: i % 3,
       parallaxX,
       parallaxRotate,

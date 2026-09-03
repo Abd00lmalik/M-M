@@ -163,12 +163,11 @@ button { cursor: pointer; font: inherit; }
   justify-content: center;
 }
 
-/* Individual M letterform */
+/* Individual M letterform — GSAP controls all transforms */
 .opening-m {
   position: absolute;
   width: 120px;
   height: 140px;
-  opacity: 0;
   will-change: transform, opacity;
 }
 
@@ -178,121 +177,17 @@ button { cursor: pointer; font: inherit; }
   filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.2));
 }
 
-/* Left M starting position */
-.opening-m--left {
-  transform: translateX(min(-180px, -45vw)) translateY(20px) rotate(-8deg) scale(0.8);
-}
-
-/* Right M starting position */
-.opening-m--right {
-  transform: translateX(min(180px, 45vw)) translateY(-20px) rotate(8deg) scale(0.8);
-}
-
-/* M's entering phase */
-.opening-m.entering {
-  opacity: 1;
-  animation: mEnter 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-}
-
-.opening-m--left.entering {
-  animation-name: mEnterLeft;
-}
-
-.opening-m--right.entering {
-  animation-name: mEnterRight;
-}
-
-@keyframes mEnterLeft {
-  0% {
-    transform: translateX(min(-180px, -45vw)) translateY(20px) rotate(-8deg) scale(0.8);
-    opacity: 0;
-  }
-  20% { opacity: 0.7; }
-  100% {
-    transform: translateX(-8px) translateY(0) rotate(-2deg) scale(1);
-    opacity: 0.9;
-  }
-}
-
-@keyframes mEnterRight {
-  0% {
-    transform: translateX(min(180px, 45vw)) translateY(-20px) rotate(8deg) scale(0.8);
-    opacity: 0;
-  }
-  20% { opacity: 0.7; }
-  100% {
-    transform: translateX(8px) translateY(0) rotate(2deg) scale(1);
-    opacity: 0.9;
-  }
-}
-
-/* M's merging phase — move to center and overlap */
-.opening-m.merging {
-  opacity: 1;
-  animation: mMerge 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.opening-m--left.merging {
-  animation-name: mMergeLeft;
-}
-
-.opening-m--right.merging {
-  animation-name: mMergeRight;
-}
-
-@keyframes mMergeLeft {
-  to {
-    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
-    opacity: 0.85;
-  }
-}
-
-@keyframes mMergeRight {
-  to {
-    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
-    opacity: 0.85;
-  }
-}
-
-/* M's dissolving */
-.opening-m.dissolving {
-  opacity: 0;
-  transform: translateX(0) scale(1.05);
-  filter: blur(4px);
-  transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
-}
-
-/* Merged glow — gold light sweep */
+/* Merged glow — GSAP controls */
 .opening-merged-glow {
   position: absolute;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, rgba(201, 168, 76, 0.05) 40%, transparent 70%);
-  opacity: 0;
   pointer-events: none;
-  transform: scale(0.5);
-  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.opening-merged-glow.visible {
-  opacity: 1;
-  transform: scale(1);
-  animation: glowPulse 1.5s ease-in-out infinite;
-}
-
-.opening-merged-glow.fading {
-  opacity: 0;
-  transform: scale(1.2);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-/* Bismillah — appears at merge */
+/* Bismillah — GSAP controls */
 .opening-bismillah {
   position: absolute;
   bottom: min(-60px, -15vw);
@@ -300,52 +195,18 @@ button { cursor: pointer; font: inherit; }
   font-size: clamp(16px, 4vw, 22px);
   color: var(--gold-muted);
   direction: rtl;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
   text-align: center;
   width: 100%;
 }
 
-.opening-bismillah.visible {
-  opacity: 0.7;
-  transform: translateY(0);
-}
-
-.opening-bismillah.fading {
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-/* ===== TITLE SEQUENCE ===== */
+/* ===== TITLE SEQUENCE — GSAP controls ===== */
 .opening-title {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.6s ease, transform 0.6s ease;
   pointer-events: none;
-}
-
-.opening-title.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.opening-title.zooming {
-  animation: titleZoom 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes titleZoom {
-  to {
-    transform: scale(1.4);
-    opacity: 0;
-    filter: blur(2px);
-  }
 }
 
 .opening-title-name {
@@ -490,6 +351,73 @@ button { cursor: pointer; font: inherit; }
     transform: rotate(var(--angle)) translateY(-50px) scale(0);
     opacity: 0;
   }
+}
+
+/* ============================================================
+   SECTION ORNAMENTS — Visible floral decorations
+   ============================================================ */
+.section-ornaments {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.section-ornament {
+  position: absolute;
+  pointer-events: none;
+}
+
+.section-ornament svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Hero bottom rose */
+.ornament-hero-bottom {
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(200px, 50vw);
+  height: auto;
+  opacity: 0.5;
+}
+
+/* Quran side sprigs */
+.ornament-quran-left,
+.ornament-quran-right {
+  width: 60px;
+  height: 100px;
+  opacity: 0.35;
+}
+
+/* Story heart */
+.ornament-story-heart {
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 60px;
+  opacity: 0.4;
+}
+
+/* Gallery bottom rose */
+.ornament-gallery-bottom {
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(180px, 45vw);
+  height: auto;
+  opacity: 0.45;
+}
+
+/* Footer side sprigs */
+.ornament-footer-left,
+.ornament-footer-right {
+  width: 50px;
+  height: 80px;
+  opacity: 0.3;
 }
 
 /* ============================================================
@@ -1968,13 +1896,17 @@ button { cursor: pointer; font: inherit; }
     scroll-behavior: auto !important;
   }
 
-  /* Opening — simplified but still visible */
+  /* Opening — GSAP handles reduced motion */
   .opening-grain {
     animation: none;
     opacity: 0;
   }
 
   .opening-glow {
+    animation: none;
+  }
+
+  .opening-heart {
     animation: none;
   }
 
@@ -2098,6 +2030,11 @@ button { cursor: pointer; font: inherit; }
   /* Floating elements */
   .floating-elements {
     display: none;
+  }
+
+  /* Section ornaments — still visible but static */
+  .section-ornaments {
+    opacity: 0.5;
   }
 }
 
