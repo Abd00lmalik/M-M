@@ -5,10 +5,6 @@ export default function TheNikah() {
   const sectionRef = useRef(null)
   const contentRef = useRef(null)
 
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    wedding.event.venue.name + ', ' + wedding.event.venue.address
-  )}`
-
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) return
@@ -32,7 +28,6 @@ export default function TheNikah() {
       const divLines = contentRef.current.querySelectorAll('.nikah-divider-line')
       const divDot = contentRef.current.querySelector('.nikah-divider-dot')
       const venue = contentRef.current.querySelector('.nikah-venue')
-      const cta = contentRef.current.querySelector('.nikah-cta')
 
       ctx = gsap.context(() => {
         const tl = gsap.timeline({
@@ -130,15 +125,6 @@ export default function TheNikah() {
             1.15
           )
         }
-
-        // CTA
-        if (cta) {
-          tl.fromTo(cta,
-            { opacity: 0, y: 12 },
-            { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-            1.3
-          )
-        }
       }, sectionRef)
     }
 
@@ -181,19 +167,6 @@ export default function TheNikah() {
           </div>
 
           <p className="nikah-venue">{wedding.event.venue.name}</p>
-
-          <a
-            className="nikah-cta"
-            href={mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-            Open in Maps
-          </a>
         </div>
       </div>
     </section>

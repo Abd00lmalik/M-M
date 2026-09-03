@@ -57,7 +57,7 @@ export const wedding = {
     {
       date: "November 2024",
       title: "She Said Yes",
-      text: "After months of talking and growing closer, on 10th November 2024, Al-Mustapha told Maryam how he felt. She didn't reply at first, but the next day she called and told him she felt the same way.",
+      text: "After months of talking and growing closer, on 10th November 2024, Al-Mustapha told Maryam how he felt. She didn't reply at first, but the next day he called and she told him she felt the same way.",
     },
     {
       date: "Eid 2025",
