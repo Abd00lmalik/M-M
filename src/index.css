@@ -119,12 +119,6 @@ button { cursor: pointer; font: inherit; }
               visibility 0.8s;
 }
 
-.opening-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 /* Film grain on opening */
 .opening-grain {
   position: absolute;
@@ -1974,9 +1968,14 @@ button { cursor: pointer; font: inherit; }
     scroll-behavior: auto !important;
   }
 
-  /* Opening — skip entirely */
-  .opening-overlay {
-    display: none !important;
+  /* Opening — simplified but still visible */
+  .opening-grain {
+    animation: none;
+    opacity: 0;
+  }
+
+  .opening-glow {
+    animation: none;
   }
 
   /* Hero — show immediately */
@@ -2099,11 +2098,6 @@ button { cursor: pointer; font: inherit; }
   /* Floating elements */
   .floating-elements {
     display: none;
-  }
-
-  /* Opening grain */
-  .opening-grain {
-    animation: none;
   }
 }
 

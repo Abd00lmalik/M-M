@@ -13,32 +13,37 @@ import MusicController from './components/MusicController'
 import { useMusic } from './hooks/useMusic'
 
 export default function App() {
-  const [showSite, setShowSite] = useState(false)
+  const [introComplete, setIntroComplete] = useState(false)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
-  // Skip opening for reduced motion
+  // Skip intro for reduced motion — still show intro overlay briefly
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
-      setShowSite(true)
+      // Short delay so reduced-motion users still see the overlay flash
+      const t = setTimeout(() => setIntroComplete(true), 1800)
+      return () => clearTimeout(t)
     }
   }, [])
 
-  // Called after heart tap in opening — starts music and reveals site
-  const handleEnter = useCallback(() => {
+  // Called after heart tap — starts music and reveals site
+  const handleIntroComplete = useCallback(() => {
     play()
-    setShowSite(true)
+    setIntroComplete(true)
   }, [play])
 
   return (
     <>
-      {!showSite && (
-        <OpeningSequence onEnter={handleEnter} />
+      {/* Cinematic intro — always shown first, covers everything */}
+      {!introComplete && (
+        <OpeningSequence onComplete={handleIntroComplete} />
       )}
 
-      {showSite && <FloatingElements />}
+      {/* Floating decorative elements — only after intro */}
+      {introComplete && <FloatingElements />}
 
-      <main>
+      {/* Main wedding site — hidden until intro completes */}
+      <main style={introComplete ? undefined : { visibility: 'hidden' }}>
         <Hero />
         <QuranicVerses />
         <Invitation />

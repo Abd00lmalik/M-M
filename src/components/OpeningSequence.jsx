@@ -1,87 +1,86 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 /*
-  CINEMATIC OPENING SEQUENCE
-  Timeline:
-  0.0-0.6s  — Dark, atmospheric glow
-  0.6-2.4s  — Two calligraphic M's enter from opposite sides
-  2.4-3.2s  — M's merge, Bismillah appears
-  3.2-3.7s  — Hold, then dissolve
-  3.7-4.5s  — "Al-Mustapha Weds Maryam" title
-  4.5-5.5s  — Slow cinematic zoom into darkness
-  After zoom — Heart descends (interactive)
-  After tap  — Heart pops, music starts, transition to site
+  CINEMATIC OPENING SEQUENCE — Deterministic State Machine
+  
+  INTRO_PLAYING:
+    dark → ms-entering → ms-merging → dissolving → title → zooming
+  
+  HEART_INTERACTION:
+    heart descends → user taps
+  
+  INTRO_COMPLETE:
+    overlay fades → main site revealed
+  
+  Every phase has explicit timing. No localStorage skip.
+  Reduced motion: compressed ~1.5s version of the same sequence.
 */
 
-export default function OpeningSequence({ onEnter }) {
+export default function OpeningSequence({ onComplete }) {
   const [phase, setPhase] = useState('dark')
-  const [isReturning, setIsReturning] = useState(false)
-  const [isHidden, setIsHidden] = useState(false)
-  const [heartVisible, setHeartVisible] = useState(false)
-  const [heartPopped, setHeartPopped] = useState(false)
   const timersRef = useRef([])
+  const prefersReducedMotion = useRef(false)
 
-  // Check returning visitor
   useEffect(() => {
-    try {
-      const lastVisit = localStorage.getItem('wedding-visit')
-      if (lastVisit && (Date.now() - parseInt(lastVisit)) < 24 * 60 * 60 * 1000) {
-        setIsReturning(true)
-      }
-    } catch { /* localStorage unavailable */ }
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   }, [])
 
-  // Main timeline
+  // Main timeline — runs on mount, NO returning-visitor skip
   useEffect(() => {
     // Clear any existing timers
     timersRef.current.forEach(clearTimeout)
     timersRef.current = []
 
-    if (isReturning) {
-      // Abbreviated: skip to heart quickly
-      const t1 = setTimeout(() => setPhase('title'), 300)
-      const t2 = setTimeout(() => setPhase('zooming'), 800)
-      const t3 = setTimeout(() => { setPhase('dark2'); setHeartVisible(true) }, 1400)
-      timersRef.current.push(t1, t2, t3)
-      return () => timersRef.current.forEach(clearTimeout)
+    const reduced = prefersReducedMotion.current
+
+    if (reduced) {
+      // Compressed sequence: still shows the full flow, just faster
+      const schedule = [
+        [100, () => setPhase('ms-entering')],
+        [400, () => setPhase('ms-merging')],
+        [700, () => setPhase('dissolving')],
+        [900, () => setPhase('title')],
+        [1200, () => setPhase('zooming')],
+        [1600, () => setPhase('heart')],
+      ]
+      schedule.forEach(([delay, fn]) => {
+        timersRef.current.push(setTimeout(fn, delay))
+      })
+    } else {
+      // Full cinematic timeline
+      const schedule = [
+        [600, () => setPhase('ms-entering')],    // M's start entering
+        [2400, () => setPhase('ms-merging')],     // M's meet and fuse
+        [3200, () => setPhase('dissolving')],     // M + Bismillah dissolve
+        [3700, () => setPhase('title')],          // Names appear
+        [4500, () => setPhase('zooming')],        // Cinematic zoom
+        [5500, () => setPhase('heart')],          // Heart descends
+      ]
+      schedule.forEach(([delay, fn]) => {
+        timersRef.current.push(setTimeout(fn, delay))
+      })
     }
 
-    // Full cinematic timeline
-    const schedule = [
-      [600, () => setPhase('ms-entering')],
-      [2400, () => setPhase('ms-merging')],
-      [3200, () => setPhase('dissolving')],
-      [3700, () => setPhase('title')],
-      [4500, () => setPhase('zooming')],
-      [5500, () => { setPhase('dark2'); setHeartVisible(true) }],
-    ]
-
-    schedule.forEach(([delay, fn]) => {
-      timersRef.current.push(setTimeout(fn, delay))
-    })
-
     return () => timersRef.current.forEach(clearTimeout)
-  }, [isReturning])
+  }, [])
 
   // Heart pop handler
+  const [heartPopped, setHeartPopped] = useState(false)
+
   const handleHeartTap = useCallback(() => {
     if (heartPopped) return
     setHeartPopped(true)
+    // After pop animation completes, reveal the site
     setTimeout(() => {
-      try {
-        localStorage.setItem('wedding-visit', Date.now().toString())
-      } catch { /* continue */ }
-      setIsHidden(true)
-      setTimeout(() => onEnter(), 800)
+      onComplete()
     }, 900)
-  }, [heartPopped, onEnter])
+  }, [heartPopped, onComplete])
 
-  const dur = isReturning ? '0.3s' : undefined
+  const dur = prefersReducedMotion.current ? '0.3s' : undefined
 
   return (
     <div
-      className={`opening-overlay ${isHidden ? 'hidden' : ''}`}
-      aria-hidden={isHidden}
+      className="opening-overlay"
       role="dialog"
       aria-label="Wedding invitation opening"
     >
@@ -92,7 +91,7 @@ export default function OpeningSequence({ onEnter }) {
       <div className="opening-glow" aria-hidden="true" />
 
       {/* ===== CINEMATIC M SEQUENCE ===== */}
-      <div className={`opening-cinematic ${phase !== 'dark' && phase !== 'dark2' ? 'active' : ''}`}>
+      <div className={`opening-cinematic ${phase !== 'dark' && phase !== 'heart' ? 'active' : ''}`}>
 
         {/* Left M — Al-Mustapha */}
         <div
@@ -190,7 +189,7 @@ export default function OpeningSequence({ onEnter }) {
       </div>
 
       {/* ===== HEART INTERACTION ===== */}
-      {heartVisible && (
+      {phase === 'heart' && (
         <div
           className={`opening-heart-scene ${heartPopped ? 'popped' : ''}`}
           onClick={handleHeartTap}
