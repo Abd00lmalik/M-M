@@ -4,17 +4,17 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 const PHOTOS = [
   {
     src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80',
-    alt: 'Couple moment — placeholder awaiting real photo',
+    alt: 'Couple moment, placeholder awaiting real photo',
     caption: 'Our beginning',
   },
   {
     src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200&q=80',
-    alt: 'Wedding celebration — placeholder awaiting real photo',
+    alt: 'Wedding celebration, placeholder awaiting real photo',
     caption: 'The celebration',
   },
   {
     src: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80',
-    alt: 'Together — placeholder awaiting real photo',
+    alt: 'Together, placeholder awaiting real photo',
     caption: 'Together always',
   },
 ]

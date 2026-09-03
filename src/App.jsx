@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import OpeningSequence from './components/OpeningSequence'
+import FloatingElements from './components/FloatingElements'
 import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
@@ -15,6 +16,7 @@ export default function App() {
   const [showSite, setShowSite] = useState(false)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
+  // Skip opening for reduced motion
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
@@ -22,6 +24,7 @@ export default function App() {
     }
   }, [])
 
+  // Called after heart tap in opening — starts music and reveals site
   const handleEnter = useCallback(() => {
     play()
     setShowSite(true)
@@ -32,6 +35,8 @@ export default function App() {
       {!showSite && (
         <OpeningSequence onEnter={handleEnter} />
       )}
+
+      {showSite && <FloatingElements />}
 
       <main>
         <Hero />

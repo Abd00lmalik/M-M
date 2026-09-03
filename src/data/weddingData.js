@@ -52,12 +52,12 @@ export const wedding = {
     {
       date: "June 2024",
       title: "The First Message",
-      text: "It all started when Al-Mustapha became friends with Maryam's elder brother Nas in secondary school. Through that friendship, he got Maryam's number from her elder sister Rukky — and on 27th June 2024, he sent the first message that would change everything.",
+      text: "It all started when Al-Mustapha became friends with Maryam's elder brother Nas in secondary school. Through that friendship, he got Maryam's number from her elder sister Rukky, and on 27th June 2024, he sent the first message that would change everything.",
     },
     {
       date: "November 2024",
       title: "She Said Yes",
-      text: "After months of talking and growing closer, on 10th November 2024, Al-Mustapha told Maryam how he felt. She didn't reply at first — but the next day, she called and told him she felt the same way.",
+      text: "After months of talking and growing closer, on 10th November 2024, Al-Mustapha told Maryam how he felt. She didn't reply at first, but the next day she called and told him she felt the same way.",
     },
     {
       date: "Eid 2025",
@@ -67,16 +67,16 @@ export const wedding = {
     {
       date: "31 October 2026",
       title: "Forever Begins",
-      text: "What started as a friendship between two brothers became a love story written by Allah Himself. And now, surrounded by the people they love, Al-Mustapha and Maryam begin their forever.",
+      text: "Some stories begin quietly and unfold one step at a time. What began with a simple message grew into a bond built on sincerity, patience, family, and faith. With the blessing of their families and the guidance of Allah, Al-Mustapha and Maryam now begin a new chapter together. On 31 October 2026, surrounded by the people they love, they will begin their journey as husband and wife.",
     },
   ],
 
   guestMessage:
-    "Our relationship is proof that Allah has pre-ordained everything in the 'Lauhul Mahfouz'. Whatever is written to be yours will be yours. Don't rush Allah's decree — everything will happen at the right time, In Sha Allah.",
+    "Our relationship is proof that Allah has pre-ordained everything in the 'Lauhul Mahfouz'. Whatever is written to be yours will be yours. Don't rush Allah's decree; everything will happen at the right time, In Sha Allah.",
 
   sharing: {
-    title: "Al-Mustapha & Maryam — 31.10.26",
-    text: "Join us in celebrating the Nikah of Al-Mustapha & Maryam — 31st October 2026",
+    title: "Al-Mustapha & Maryam, 31.10.26",
+    text: "Join us in celebrating the Nikah of Al-Mustapha & Maryam, 31st October 2026",
   },
 
   calendar: {
