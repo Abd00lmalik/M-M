@@ -367,7 +367,7 @@ button { cursor: pointer; font: inherit; }
 }
 
 /* ============================================================
-   FLORAL ORNAMENTS — Static, stable decorations
+   FLORAL ORNAMENTS — Real rose photographs
    ============================================================ */
 .floral-ornaments {
   position: fixed;
@@ -380,54 +380,79 @@ button { cursor: pointer; font: inherit; }
 .floral-ornament {
   position: absolute;
   pointer-events: none;
+  object-fit: contain;
+  mix-blend-mode: luminosity;
+  filter: saturate(0.6) brightness(1.1);
 }
 
-.floral-ornament svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Hero bottom rose cluster */
+/* Hero bottom — blush rose */
 .floral-hero {
-  bottom: 3%;
+  bottom: 2%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(240px, 60vw);
-  opacity: 0.55;
-}
-
-/* Quran side branches */
-.floral-quran-left,
-.floral-quran-right {
-  width: 70px;
-  height: 130px;
-  opacity: 0.4;
-}
-
-/* Story divider */
-.floral-story {
-  bottom: 4%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(160px, 40vw);
+  width: min(180px, 45vw);
+  height: auto;
   opacity: 0.45;
 }
 
-/* Gallery bottom rose */
-.floral-gallery {
+/* Quran left — ivory rose */
+.floral-quran-left {
+  left: 3%;
+  top: 30%;
+  width: min(100px, 20vw);
+  height: auto;
+  opacity: 0.35;
+  transform: rotate(-15deg);
+}
+
+/* Quran right — pink rose */
+.floral-quran-right {
+  right: 3%;
+  top: 30%;
+  width: min(100px, 20vw);
+  height: auto;
+  opacity: 0.35;
+  transform: rotate(15deg) scaleX(-1);
+}
+
+/* Story divider — dried blush */
+.floral-story {
   bottom: 3%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(220px, 55vw);
-  opacity: 0.5;
+  width: min(120px, 30vw);
+  height: auto;
+  opacity: 0.4;
 }
 
-/* Footer branches */
-.floral-footer-left,
+/* Gallery bottom — ivory cluster */
+.floral-gallery {
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(160px, 40vw);
+  height: auto;
+  opacity: 0.42;
+}
+
+/* Footer left — white rose */
+.floral-footer-left {
+  left: 5%;
+  top: 12%;
+  width: min(90px, 18vw);
+  height: auto;
+  opacity: 0.3;
+  transform: rotate(-20deg);
+}
+
+/* Footer right — blush rose */
 .floral-footer-right {
-  width: 60px;
-  height: 110px;
-  opacity: 0.35;
+  right: 5%;
+  top: 12%;
+  width: min(90px, 18vw);
+  height: auto;
+  opacity: 0.3;
+  transform: rotate(20deg) scaleX(-1);
 }
 
 /* ============================================================
