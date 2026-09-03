@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import OpeningSequence from './components/OpeningSequence'
 import FloralOrnaments from './components/FloralOrnaments'
+import FloatingHearts from './components/FloatingHearts'
 import Hero from './components/Hero'
 import QuranicVerses from './components/QuranicVerses'
 import Invitation from './components/Invitation'
@@ -47,8 +48,9 @@ export default function App() {
         <OpeningSequence onComplete={handleIntroComplete} />
       )}
 
-      {/* Floral ornaments — static, no animation */}
+      {/* Decorative layers — only after intro */}
       {siteVisible && <FloralOrnaments />}
+      {siteVisible && <FloatingHearts />}
 
       {/* Main site — fades in smoothly */}
       <main

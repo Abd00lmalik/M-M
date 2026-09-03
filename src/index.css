@@ -407,6 +407,37 @@ button { cursor: pointer; font: inherit; }
 .floral-footer-r { top: 8%; right: 4%; transform: scaleX(-1); }
 
 /* ============================================================
+   FLOATING HEARTS — Atmospheric suspended hearts
+   ============================================================ */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -30px;
+  animation: floatHeartUp var(--duration) linear var(--delay) infinite;
+  will-change: transform;
+}
+
+@keyframes floatHeartUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  3% { opacity: var(--opacity); }
+  97% { opacity: var(--opacity); }
+  100% {
+    transform: translateY(-105vh) translateX(15px) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
    HERO SECTION
    ============================================================ */
 .hero {
@@ -1938,6 +1969,11 @@ button { cursor: pointer; font: inherit; }
   }
 
   /* Floral ornaments — static, no change needed */
+
+  /* Floating hearts — hidden for reduced motion */
+  .floating-hearts {
+    display: none;
+  }
 
   /* Site fade-in — instant for reduced motion */
   .site-main {
