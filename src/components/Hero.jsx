@@ -69,14 +69,14 @@ export default function Hero() {
           {wedding.guestMessage}
         </p>
 
-        {/* CTA */}
-        <a href="#story" className="hero-cta">
-          View Our Story
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {/* Scroll indicator — not a link, just a visual cue */}
+        <div className="hero-scroll-hint" aria-hidden="true">
+          <span className="hero-scroll-text">Scroll</span>
+          <svg className="hero-scroll-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19" />
             <polyline points="19 12 12 19 5 12" />
           </svg>
-        </a>
+        </div>
 
         {/* Countdown */}
         <div className="hero-countdown">
