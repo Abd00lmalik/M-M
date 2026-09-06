@@ -7,7 +7,7 @@ import photoThree from '../assets/IMG_4504.webp'
 const PHOTOS = [
   {
     src: photoOne,
-    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
+    alt: 'Henna-adorned hands resting together, a symbol of union',
     caption: 'Our beginning',
   },
   {
