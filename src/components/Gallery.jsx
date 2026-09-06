@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-const photoOne = '/assets/Image 1.webp'
+import photoOne from '../assets/Image 1.webp'
 import photoTwo from '../assets/IMG_4502.webp'
 import photoThree from '../assets/IMG_4504.webp'
 
 const PHOTOS = [
   {
     src: photoOne,
-    alt: 'Henna-adorned hands resting together, a symbol of union',
+    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
     caption: 'Our beginning',
   },
   {
     src: photoTwo,
-    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
+    alt: 'Henna-adorned hands resting together, a symbol of union',
     caption: 'The celebration',
   },
   {
