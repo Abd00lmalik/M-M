@@ -1,20 +1,23 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import photoOne from '../assets/Image 1.webp'
+import photoTwo from '../assets/IMG_4502.webp'
+import photoThree from '../assets/IMG_4504.webp'
 
 const PHOTOS = [
   {
-    src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80',
-    alt: 'Couple moment, placeholder awaiting real photo',
+    src: photoOne,
+    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
     caption: 'Our beginning',
   },
   {
-    src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200&q=80',
-    alt: 'Wedding celebration, placeholder awaiting real photo',
+    src: photoTwo,
+    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
     caption: 'The celebration',
   },
   {
-    src: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1200&q=80',
-    alt: 'Together, placeholder awaiting real photo',
+    src: photoThree,
+    alt: 'Al-Mustapha and Maryam, a portrait from their journey together',
     caption: 'Together always',
   },
 ]
