@@ -22,7 +22,12 @@ Thumbs.db
 # Temporary assets (original music file)
 For the rest of my life*
 IMG-20260902*
-assets/
+/assets/
+
+# Large source images (only webp needed)
+src/assets/*.png
+src/assets/*.jpg
+src/assets/*.JPG
 
 # Planning docs (not part of the website)
 *.md
