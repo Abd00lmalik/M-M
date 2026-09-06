@@ -17,6 +17,12 @@ import { useState, useEffect, useCallback, useRef } from 'react'
   User taps → pop → music → site
 */
 
+// Detect iOS Safari
+function isIOS() {
+  return /iP(hone|od|ad)/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+}
+
 export default function OpeningSequence({ onComplete, onPlayMusic }) {
   const overlayRef = useRef(null)
   const leftMRef = useRef(null)
@@ -39,6 +45,7 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
       if (cancelled) return
 
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const ios = isIOS()
 
       // Master timeline
       const tl = gsap.timeline({
@@ -49,25 +56,27 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
 
       ctxRef.current = tl
 
-      if (reduced) {
-        // Compressed but visible sequence
+      // iOS: always run full sequence (reduced motion breaks it)
+      // Non-iOS reduced motion: compressed but still shows heart
+      if (reduced && !ios) {
+        // Compressed sequence — still shows heart for interaction
         tl.set([leftMRef.current, rightMRef.current], { opacity: 0, x: 0 })
         tl.set(glowRef.current, { opacity: 0, scale: 0.5 })
         tl.set(bismillahRef.current, { opacity: 0, y: 10 })
         tl.set(titleRef.current, { opacity: 0, scale: 0.95 })
 
         tl.to([leftMRef.current, rightMRef.current], {
-          opacity: 0.9, duration: 0.3, stagger: 0.05
+          opacity: 0.9, duration: 0.4, stagger: 0.05
         }, 0)
-        tl.to(glowRef.current, { opacity: 1, scale: 1, duration: 0.3 }, 0.15)
-        tl.to(bismillahRef.current, { opacity: 0.7, y: 0, duration: 0.3 }, 0.2)
+        tl.to(glowRef.current, { opacity: 1, scale: 1, duration: 0.4 }, 0.15)
+        tl.to(bismillahRef.current, { opacity: 0.7, y: 0, duration: 0.4 }, 0.25)
         tl.to([leftMRef.current, rightMRef.current, glowRef.current, bismillahRef.current], {
-          opacity: 0, duration: 0.3
-        }, 0.5)
-        tl.to(titleRef.current, { opacity: 1, scale: 1, duration: 0.3 }, 0.6)
-        tl.to(titleRef.current, { opacity: 0, scale: 1.2, duration: 0.3 }, 1.0)
+          opacity: 0, duration: 0.4
+        }, 0.7)
+        tl.to(titleRef.current, { opacity: 1, scale: 1, duration: 0.5 }, 0.9)
+        tl.to(titleRef.current, { opacity: 0, scale: 1.15, duration: 0.4 }, 1.6)
       } else {
-        // Full cinematic sequence
+        // Full cinematic sequence (used on iOS too — no blur filters)
         const startLeft = { x: -160, y: 15, rotation: -6, scale: 0.85, opacity: 0 }
         const startRight = { x: 160, y: -15, rotation: 6, scale: 0.85, opacity: 0 }
 
@@ -112,9 +121,9 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
           opacity: 0.7, y: 0, duration: 0.6, ease: 'power2.out'
         }, 2.8)
 
-        // Phase 3: Dissolve (3.2s – 3.7s)
+        // Phase 3: Dissolve (3.2s – 3.7s) — opacity only, no blur (iOS safe)
         tl.to([leftMRef.current, rightMRef.current], {
-          opacity: 0, scale: 1.06, filter: 'blur(4px)',
+          opacity: 0, scale: 1.06,
           duration: 0.5, ease: 'power2.in'
         }, 3.2)
         tl.to(glowRef.current, {
@@ -124,17 +133,14 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
           opacity: 0, y: -10, duration: 0.4, ease: 'power2.in'
         }, 3.3)
 
-        // Clear blur for next phase
-        tl.set([leftMRef.current, rightMRef.current], { filter: 'none' }, 3.7)
-
         // Phase 4: Title reveal (3.7s – 4.5s)
         tl.to(titleRef.current, {
           opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'power2.out'
         }, 3.8)
 
-        // Phase 5: Cinematic zoom (4.5s – 5.5s)
+        // Phase 5: Cinematic zoom (4.5s – 5.5s) — no blur (iOS safe)
         tl.to(titleRef.current, {
-          scale: 1.5, opacity: 0, filter: 'blur(2px)',
+          scale: 1.5, opacity: 0,
           duration: 1.0, ease: 'power2.in'
         }, 4.5)
       }
@@ -166,7 +172,7 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
         scale: 0.85, duration: 0.15, ease: 'power2.in'
       })
       tl.to(heartRef.current, {
-        scale: 1.2, opacity: 0, filter: 'blur(3px)',
+        scale: 1.2, opacity: 0,
         duration: 0.5, ease: 'power2.out'
       })
       tl.to(instructionRef.current, {
@@ -263,10 +269,9 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
                   <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.6" />
                   <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.3" />
                 </linearGradient>
-                <filter id="heartBlur"><feGaussianBlur stdDeviation="3" /></filter>
               </defs>
               <path d="M50 88 C25 65, 5 50, 5 32 C5 18, 16 8, 30 8 C38 8, 45 12, 50 20 C55 12, 62 8, 70 8 C84 8, 95 18, 95 32 C95 50, 75 65, 50 88Z"
-                fill="url(#heartGlow)" filter="url(#heartBlur)" />
+                fill="url(#heartGlow)" />
               <path d="M50 82 C28 62, 12 48, 12 33 C12 21, 21 12, 32 12 C39 12, 45 16, 50 22 C55 16, 61 12, 68 12 C79 12, 88 21, 88 33 C88 48, 72 62, 50 82Z"
                 fill="url(#heartGlow)" />
               <path d="M50 78 C30 60, 16 47, 16 34 C16 24, 23 16, 33 16 C39 16, 44 19, 50 24 C56 19, 61 16, 67 16 C77 16, 84 24, 84 34 C84 47, 70 60, 50 78Z"
