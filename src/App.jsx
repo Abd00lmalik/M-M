@@ -33,19 +33,18 @@ export default function App() {
 
   // Called after heart pop — smooth transition
   const handleIntroComplete = useCallback(() => {
-    play()
     setIntroComplete(true)
     // Fade in the site smoothly after overlay fades
     requestAnimationFrame(() => {
       setTimeout(() => setSiteVisible(true), 400)
     })
-  }, [play])
+  }, [])
 
   return (
     <>
       {/* Cinematic intro */}
       {!introComplete && (
-        <OpeningSequence onComplete={handleIntroComplete} />
+        <OpeningSequence onComplete={handleIntroComplete} onPlayMusic={play} />
       )}
 
       {/* Decorative layers — only after intro */}

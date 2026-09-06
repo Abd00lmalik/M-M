@@ -6,18 +6,29 @@ export function useMusic(src) {
   const [isMuted, setIsMuted] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const [showControl, setShowControl] = useState(false)
+  const pendingPlayRef = useRef(false)
 
   useEffect(() => {
     const audio = new Audio()
     audio.src = src
-    audio.preload = 'metadata'
+    audio.preload = 'auto'
     audio.loop = false
-    audio.volume = 0.3 // Start at low volume
+    audio.volume = 0.3
 
-    audio.addEventListener('loadeddata', () => setIsLoaded(true))
+    audio.addEventListener('loadeddata', () => {
+      setIsLoaded(true)
+      // If user tapped heart before audio loaded, play now
+      if (pendingPlayRef.current) {
+        pendingPlayRef.current = false
+        audio.volume = 0.3
+        audio.play().then(() => {
+          setIsPlaying(true)
+          setShowControl(true)
+        }).catch(() => {})
+      }
+    })
     audio.addEventListener('ended', () => setIsPlaying(false))
     audio.addEventListener('error', () => {
-      // Silently fail — site works without music
       setIsLoaded(false)
     })
 
@@ -31,11 +42,15 @@ export function useMusic(src) {
 
   const play = useCallback(() => {
     const audio = audioRef.current
-    if (!audio || !isLoaded) return
+    if (!audio) return
 
-    // Set volume low before playing
+    // If audio isn't loaded yet, queue it
+    if (!isLoaded) {
+      pendingPlayRef.current = true
+      return
+    }
+
     audio.volume = 0.3
-
     audio.play()
       .then(() => {
         setIsPlaying(true)
