@@ -1,193 +1,54 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 /*
-  CINEMATIC OPENING — GSAP Timeline
+  CINEMATIC OPENING — Pure CSS Animations
   
-  One master timeline controls every element.
-  No CSS keyframes. No setTimeout. No lag.
+  iOS Safari breaks GSAP dynamic imports + filter tweens.
+  Using CSS @keyframes for rock-solid cross-platform intro.
   
-  Sequence:
+  Sequence (CSS-driven):
   0.0s  — Dark, glow pulses
-  0.6s  — M's enter from opposite sides (GSAP tween)
-  2.4s  — M's fuse to center, gold glow, Bismillah
+  0.6s  — M's enter from opposite sides
+  2.4s  — M's fuse, gold glow, Bismillah
   3.2s  — Dissolve M + Bismillah
-  3.7s  — Title appears
-  4.5s  — Cinematic zoom
-  5.5s  — Heart descends (interactive)
-  User taps → pop → music → site
+  3.8s  — Title appears
+  4.8s  — Cinematic zoom + fade
+  5.8s  — Heart descends (interactive tap)
 */
 
-// Detect iOS Safari
-function isIOS() {
-  return /iP(hone|od|ad)/.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-}
-
 export default function OpeningSequence({ onComplete, onPlayMusic }) {
-  const overlayRef = useRef(null)
-  const leftMRef = useRef(null)
-  const rightMRef = useRef(null)
-  const glowRef = useRef(null)
-  const bismillahRef = useRef(null)
-  const titleRef = useRef(null)
-  const heartSceneRef = useRef(null)
-  const heartRef = useRef(null)
-  const instructionRef = useRef(null)
-  const ctxRef = useRef(null)
-  const [showHeart, setShowHeart] = useState(false)
+  const [phase, setPhase] = useState('m-enter') // m-enter → fuse → dissolve → title → zoom → heart
   const [heartPopped, setHeartPopped] = useState(false)
+  const heartRef = useRef(null)
 
+  // Drive phases with CSS animation events
   useEffect(() => {
-    let cancelled = false
+    const timers = []
 
-    async function init() {
-      const { gsap } = await import('gsap')
-      if (cancelled) return
+    // Phase timeline — matches CSS animation durations
+    timers.push(setTimeout(() => setPhase('fuse'), 1800))      // 0.6s + 1.8s = 2.4s
+    timers.push(setTimeout(() => setPhase('dissolve'), 3200))  // 2.4s + 0.8s = 3.2s
+    timers.push(setTimeout(() => setPhase('title'), 3800))     // 3.2s + 0.6s = 3.8s
+    timers.push(setTimeout(() => setPhase('zoom'), 4800))      // 3.8s + 1.0s = 4.8s
+    timers.push(setTimeout(() => setPhase('heart'), 6000))     // 4.8s + 1.2s = 6.0s
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const ios = isIOS()
-
-      // Master timeline
-      const tl = gsap.timeline({
-        onComplete: () => {
-          if (!cancelled) setShowHeart(true)
-        }
-      })
-
-      ctxRef.current = tl
-
-      // iOS: always run full sequence (reduced motion breaks it)
-      // Non-iOS reduced motion: compressed but still shows heart
-      if (reduced && !ios) {
-        // Compressed sequence — still shows heart for interaction
-        tl.set([leftMRef.current, rightMRef.current], { opacity: 0, x: 0 })
-        tl.set(glowRef.current, { opacity: 0, scale: 0.5 })
-        tl.set(bismillahRef.current, { opacity: 0, y: 10 })
-        tl.set(titleRef.current, { opacity: 0, scale: 0.95 })
-
-        tl.to([leftMRef.current, rightMRef.current], {
-          opacity: 0.9, duration: 0.4, stagger: 0.05
-        }, 0)
-        tl.to(glowRef.current, { opacity: 1, scale: 1, duration: 0.4 }, 0.15)
-        tl.to(bismillahRef.current, { opacity: 0.7, y: 0, duration: 0.4 }, 0.25)
-        tl.to([leftMRef.current, rightMRef.current, glowRef.current, bismillahRef.current], {
-          opacity: 0, duration: 0.4
-        }, 0.7)
-        tl.to(titleRef.current, { opacity: 1, scale: 1, duration: 0.5 }, 0.9)
-        tl.to(titleRef.current, { opacity: 0, scale: 1.15, duration: 0.4 }, 1.6)
-      } else {
-        // Full cinematic sequence (used on iOS too — no blur filters)
-        const startLeft = { x: -160, y: 15, rotation: -6, scale: 0.85, opacity: 0 }
-        const startRight = { x: 160, y: -15, rotation: 6, scale: 0.85, opacity: 0 }
-
-        // Initial states
-        gsap.set(leftMRef.current, startLeft)
-        gsap.set(rightMRef.current, startRight)
-        gsap.set(glowRef.current, { opacity: 0, scale: 0.5 })
-        gsap.set(bismillahRef.current, { opacity: 0, y: 12 })
-        gsap.set(titleRef.current, { opacity: 0, scale: 0.92, y: 20 })
-
-        // Phase 1: M's enter (0.6s – 2.4s)
-        tl.to(leftMRef.current, {
-          x: -8, y: 0, rotation: -1.5, scale: 1, opacity: 0.9,
-          duration: 1.8, ease: 'power2.out'
-        }, 0.6)
-        tl.to(rightMRef.current, {
-          x: 8, y: 0, rotation: 1.5, scale: 1, opacity: 0.9,
-          duration: 1.8, ease: 'power2.out'
-        }, 0.6)
-
-        // Phase 2: M's fuse (2.4s – 3.2s)
-        tl.to(leftMRef.current, {
-          x: 0, rotation: 0, opacity: 0.85,
-          duration: 0.8, ease: 'power3.inOut'
-        }, 2.4)
-        tl.to(rightMRef.current, {
-          x: 0, rotation: 0, opacity: 0.85,
-          duration: 0.8, ease: 'power3.inOut'
-        }, 2.4)
-
-        // Gold glow pulse at fusion
-        tl.to(glowRef.current, {
-          opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out'
-        }, 2.6)
-        tl.to(glowRef.current, {
-          opacity: 0.7, scale: 1.08, duration: 0.4, ease: 'sine.inOut',
-          yoyo: true, repeat: 1
-        }, 3.0)
-
-        // Bismillah fades in
-        tl.to(bismillahRef.current, {
-          opacity: 0.7, y: 0, duration: 0.6, ease: 'power2.out'
-        }, 2.8)
-
-        // Phase 3: Dissolve (3.2s – 3.7s) — opacity only, no blur (iOS safe)
-        tl.to([leftMRef.current, rightMRef.current], {
-          opacity: 0, scale: 1.06,
-          duration: 0.5, ease: 'power2.in'
-        }, 3.2)
-        tl.to(glowRef.current, {
-          opacity: 0, scale: 1.3, duration: 0.4, ease: 'power2.in'
-        }, 3.3)
-        tl.to(bismillahRef.current, {
-          opacity: 0, y: -10, duration: 0.4, ease: 'power2.in'
-        }, 3.3)
-
-        // Phase 4: Title reveal (3.7s – 4.5s)
-        tl.to(titleRef.current, {
-          opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'power2.out'
-        }, 3.8)
-
-        // Phase 5: Cinematic zoom (4.5s – 5.5s) — no blur (iOS safe)
-        tl.to(titleRef.current, {
-          scale: 1.5, opacity: 0,
-          duration: 1.0, ease: 'power2.in'
-        }, 4.5)
-      }
-    }
-
-    init()
-
-    return () => {
-      cancelled = true
-      ctxRef.current?.kill()
-    }
+    return () => timers.forEach(clearTimeout)
   }, [])
 
   // Heart pop handler
   const handleHeartTap = useCallback(() => {
-    if (heartPopped || !heartRef.current) return
+    if (heartPopped) return
     setHeartPopped(true)
 
     // Play music directly in click handler (required for iOS)
     onPlayMusic?.()
 
-    // Import GSAP for pop animation
-    import('gsap').then(({ gsap }) => {
-      const tl = gsap.timeline({
-        onComplete: () => onComplete()
-      })
-
-      tl.to(heartRef.current, {
-        scale: 0.85, duration: 0.15, ease: 'power2.in'
-      })
-      tl.to(heartRef.current, {
-        scale: 1.2, opacity: 0,
-        duration: 0.5, ease: 'power2.out'
-      })
-      tl.to(instructionRef.current, {
-        opacity: 0, duration: 0.2
-      }, 0)
-    })
+    // After pop animation completes, open site
+    setTimeout(() => onComplete(), 600)
   }, [heartPopped, onComplete, onPlayMusic])
 
   return (
-    <div
-      className="opening-overlay"
-      ref={overlayRef}
-      role="dialog"
-      aria-label="Wedding invitation opening"
-    >
+    <div className="opening-overlay" role="dialog" aria-label="Wedding invitation opening">
       {/* Film grain */}
       <div className="opening-grain" aria-hidden="true" />
 
@@ -195,9 +56,9 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
       <div className="opening-glow" aria-hidden="true" />
 
       {/* ===== M SEQUENCE ===== */}
-      <div className="opening-cinematic">
+      <div className={`opening-cinematic opening-phase--${phase}`}>
         {/* Left M */}
-        <div className="opening-m opening-m--left" ref={leftMRef} aria-hidden="true">
+        <div className="opening-m opening-m--left" aria-hidden="true">
           <svg viewBox="0 0 120 140" className="opening-m-svg">
             <defs>
               <linearGradient id="gLeft" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -214,7 +75,7 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
         </div>
 
         {/* Right M */}
-        <div className="opening-m opening-m--right" ref={rightMRef} aria-hidden="true">
+        <div className="opening-m opening-m--right" aria-hidden="true">
           <svg viewBox="0 0 120 140" className="opening-m-svg">
             <defs>
               <linearGradient id="gRight" x1="100%" y1="0%" x2="0%" y2="100%">
@@ -231,23 +92,23 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
         </div>
 
         {/* Merged glow */}
-        <div className="opening-merged-glow" ref={glowRef} aria-hidden="true" />
+        <div className="opening-merged-glow" aria-hidden="true" />
 
         {/* Bismillah */}
-        <p className="opening-bismillah" ref={bismillahRef} dir="rtl" lang="ar">
+        <p className="opening-bismillah" dir="rtl" lang="ar">
           بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
         </p>
       </div>
 
       {/* ===== TITLE ===== */}
-      <div className="opening-title" ref={titleRef}>
+      <div className={`opening-title opening-phase--${phase}`}>
         <span className="opening-title-name">Al-Mustapha</span>
         <span className="opening-title-weds">Weds</span>
         <span className="opening-title-name">Maryam</span>
       </div>
 
       {/* ===== HEART ===== */}
-      {showHeart && (
+      {phase === 'heart' && (
         <div
           className={`opening-heart-scene ${heartPopped ? 'popped' : ''}`}
           onClick={handleHeartTap}
@@ -255,7 +116,6 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
           role="button"
           tabIndex={0}
           aria-label="Tap the heart to enter the invitation"
-          ref={heartSceneRef}
         >
           <div className="opening-heart" ref={heartRef}>
             <svg viewBox="0 0 100 100" className="opening-heart-svg">
@@ -278,7 +138,7 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
                 fill="none" stroke="url(#heartGold)" strokeWidth="0.8" />
             </svg>
           </div>
-          <p className="opening-heart-instruction" ref={instructionRef}>Tap the heart</p>
+          <p className="opening-heart-instruction">Tap the heart</p>
           {heartPopped && (
             <div className="opening-heart-particles" aria-hidden="true">
               {Array.from({ length: 8 }, (_, i) => (
