@@ -19,10 +19,12 @@ export default function App() {
   const mainRef = useRef(null)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
-  // Skip intro for reduced motion
+  // Skip intro for reduced motion — but NOT on iOS (it breaks the experience)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
+    const isIOS = /iP(hone|od|ad)/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    if (prefersReducedMotion && !isIOS) {
       const t = setTimeout(() => {
         setIntroComplete(true)
         setTimeout(() => setSiteVisible(true), 100)
