@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 import photoOne from '../assets/Image 1.webp'
 import photoTwo from '../assets/IMG_4502.webp'
 import photoThree from '../assets/IMG_4504.webp'
@@ -27,8 +28,8 @@ export default function Gallery() {
   const gridRef = useRef(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    const reducedMotion = prefersReducedMotion()
+    if (reducedMotion) return
 
     let ctx
 

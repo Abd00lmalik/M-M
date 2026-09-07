@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { prefersReducedMotion } from './utils/prefersReducedMotion'
 import OpeningSequence from './components/OpeningSequence'
 import FloralOrnaments from './components/FloralOrnaments'
 import FloatingHearts from './components/FloatingHearts'
@@ -21,8 +22,7 @@ export default function App() {
 
   // Skip intro for reduced motion
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion()) {
       const t = setTimeout(() => {
         setIntroComplete(true)
         setTimeout(() => setSiteVisible(true), 100)

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 export function useScrollReveal(options = {}) {
   const ref = useRef(null)
@@ -7,9 +8,7 @@ export function useScrollReveal(options = {}) {
     const el = ref.current
     if (!el) return
 
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion()) {
       el.classList.add('visible')
       return
     }

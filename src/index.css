@@ -1974,6 +1974,22 @@ button { cursor: pointer; font: inherit; }
   }
 }
 
+/* iOS: restore all animations even if prefers-reduced-motion is set */
+@media (prefers-reduced-motion: reduce) {
+  .ios *, .ios *::before, .ios *::after {
+    animation-duration: revert !important;
+    animation-iteration-count: revert !important;
+    transition-duration: revert !important;
+  }
+  .ios .opening-grain { animation: grainShift 0.5s steps(3) infinite; opacity: 0.04; }
+  .ios .opening-glow { animation: openingGlowPulse 4s ease-in-out infinite; }
+  .ios .opening-heart { animation: heartSway 3s ease-in-out infinite; }
+  .ios .reveal { opacity: revert; transform: revert; }
+  .ios .gallery-img { clip-path: revert; opacity: revert; }
+  .ios .site-main { opacity: revert; transform: revert; transition: revert; }
+  .ios .floating-hearts { display: revert; }
+}
+
 /* ============================================================
    SCREEN READER ONLY
    ============================================================ */

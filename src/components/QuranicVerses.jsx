@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { wedding } from '../data/weddingData'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 export default function QuranicVerses() {
   const sectionRef = useRef(null)
@@ -8,8 +9,8 @@ export default function QuranicVerses() {
   const separatorRef = useRef(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    const reducedMotion = prefersReducedMotion()
+    if (reducedMotion) return
 
     let ctx
 

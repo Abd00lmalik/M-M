@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { wedding } from '../data/weddingData'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 export default function Invitation() {
   const sectionRef = useRef(null)
   const contentRef = useRef(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    const reducedMotion = prefersReducedMotion()
+    if (reducedMotion) return
 
     let ctx
 

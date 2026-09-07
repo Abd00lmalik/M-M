@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 /*
   CINEMATIC OPENING — GSAP Timeline
@@ -38,7 +39,7 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
       const { gsap } = await import('gsap')
       if (cancelled) return
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reduced = prefersReducedMotion()
 
       // Master timeline
       const tl = gsap.timeline({

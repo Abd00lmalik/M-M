@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { wedding } from '../data/weddingData'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 export default function OurStory() {
   const headingRef = useScrollReveal()
@@ -8,8 +9,8 @@ export default function OurStory() {
   const lineRef = useRef(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+    const reducedMotion = prefersReducedMotion()
+    if (reducedMotion) return
 
     let ctx
 

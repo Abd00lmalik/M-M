@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion'
 
 // Deterministic pseudo-random based on seed
 function seededRandom(seed) {
@@ -118,9 +119,7 @@ export default function FloatingElements() {
   const ctxRef = useRef(null)
 
   useEffect(() => {
-    setPrefersReducedMotion(
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    )
+    setPrefersReducedMotion(prefersReducedMotion())
   }, [])
 
   // GSAP ScrollTrigger: parallax for all + opacity fade for all
