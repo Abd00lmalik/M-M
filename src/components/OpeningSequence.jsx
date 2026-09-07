@@ -17,7 +17,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
   User taps → pop → music → site
 */
 
-export default function OpeningSequence({ onComplete }) {
+export default function OpeningSequence({ onComplete, onPlayMusic }) {
   const overlayRef = useRef(null)
   const leftMRef = useRef(null)
   const rightMRef = useRef(null)
@@ -153,6 +153,9 @@ export default function OpeningSequence({ onComplete }) {
     if (heartPopped || !heartRef.current) return
     setHeartPopped(true)
 
+    // Play music directly in click handler (required for iOS)
+    onPlayMusic?.()
+
     // Import GSAP for pop animation
     import('gsap').then(({ gsap }) => {
       const tl = gsap.timeline({
@@ -170,7 +173,7 @@ export default function OpeningSequence({ onComplete }) {
         opacity: 0, duration: 0.2
       }, 0)
     })
-  }, [heartPopped, onComplete])
+  }, [heartPopped, onComplete, onPlayMusic])
 
   return (
     <div

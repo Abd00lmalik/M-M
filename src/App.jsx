@@ -45,7 +45,7 @@ export default function App() {
     <>
       {/* Cinematic intro */}
       {!introComplete && (
-        <OpeningSequence onComplete={handleIntroComplete} />
+        <OpeningSequence onComplete={handleIntroComplete} onPlayMusic={play} />
       )}
 
       {/* Decorative layers — only after intro */}
