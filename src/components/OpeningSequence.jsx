@@ -157,23 +157,8 @@ export default function OpeningSequence({ onComplete, onPlayMusic }) {
     // Play music directly in click handler (required for iOS)
     onPlayMusic?.()
 
-    // Import GSAP for pop animation
-    import('gsap').then(({ gsap }) => {
-      const tl = gsap.timeline({
-        onComplete: () => onComplete()
-      })
-
-      tl.to(heartRef.current, {
-        scale: 0.85, duration: 0.15, ease: 'power2.in'
-      })
-      tl.to(heartRef.current, {
-        scale: 1.2, opacity: 0, filter: 'blur(3px)',
-        duration: 0.5, ease: 'power2.out'
-      })
-      tl.to(instructionRef.current, {
-        opacity: 0, duration: 0.2
-      }, 0)
-    })
+    // Wait for CSS heartPop animation (0.6s) then open site
+    setTimeout(() => onComplete(), 650)
   }, [heartPopped, onComplete, onPlayMusic])
 
   return (
