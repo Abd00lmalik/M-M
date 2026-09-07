@@ -19,12 +19,10 @@ export default function App() {
   const mainRef = useRef(null)
   const { play, toggleMute, isPlaying, isMuted, showControl } = useMusic('/music.mp3')
 
-  // Skip intro for reduced motion — but NOT on iOS (it breaks the experience)
+  // Skip intro for reduced motion
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isIOS = /iP(hone|od|ad)/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-    if (prefersReducedMotion && !isIOS) {
+    if (prefersReducedMotion) {
       const t = setTimeout(() => {
         setIntroComplete(true)
         setTimeout(() => setSiteVisible(true), 100)
@@ -35,18 +33,19 @@ export default function App() {
 
   // Called after heart pop — smooth transition
   const handleIntroComplete = useCallback(() => {
+    play()
     setIntroComplete(true)
     // Fade in the site smoothly after overlay fades
     requestAnimationFrame(() => {
       setTimeout(() => setSiteVisible(true), 400)
     })
-  }, [])
+  }, [play])
 
   return (
     <>
       {/* Cinematic intro */}
       {!introComplete && (
-        <OpeningSequence onComplete={handleIntroComplete} onPlayMusic={play} />
+        <OpeningSequence onComplete={handleIntroComplete} />
       )}
 
       {/* Decorative layers — only after intro */}
