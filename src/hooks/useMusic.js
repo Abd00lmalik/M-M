@@ -43,19 +43,17 @@ export function useMusic(src) {
     const audio = audioRef.current
     if (!audio) return
 
-    if (!isLoaded) {
-      pendingPlayRef.current = true
-      return
-    }
-
     audio.volume = 0.3
     audio.play()
       .then(() => {
         setIsPlaying(true)
         setShowControl(true)
       })
-      .catch(() => {})
-  }, [isLoaded])
+      .catch(() => {
+        // Not loaded yet or blocked — queue for when loadeddata fires
+        pendingPlayRef.current = true
+      })
+  }, [])
 
   const toggleMute = useCallback(() => {
     const audio = audioRef.current
